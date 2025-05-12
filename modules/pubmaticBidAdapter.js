@@ -721,7 +721,9 @@ export const spec = {
       }
     })
     const data = converter.toORTB({ validBidRequests, bidderRequest });
-
+    if (bid?.ortb2?.ext?.prebid?.previousauctioninfo) {
+      deepSetValue(data, 'ortb2.ext.prebid.previousauctioninfo',bid?.ortb2?.ext?.prebid?.previousauctioninfo);
+    }
     let serverRequest = {
       method: 'POST',
       url: ENDPOINT,
