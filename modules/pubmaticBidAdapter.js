@@ -723,7 +723,7 @@ export const spec = {
     const data = converter.toORTB({ validBidRequests, bidderRequest });
     if (bid?.ortb2?.ext?.prebid?.previousauctioninfo) {
 
-      deepSetValue(data, 'ext.previousauctioninfo',bid?.ortb2?.ext?.prebid?.previousauctioninfo);
+      deepSetValue(data, 'ext.previousAuctionInfo',bid?.ortb2?.ext?.prebid?.previousauctioninfo);
     }
     let serverRequest = {
       method: 'POST',
