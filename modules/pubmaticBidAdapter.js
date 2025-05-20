@@ -104,6 +104,10 @@ const converter = ortbConverter({
     const marketPlaceEnabled = bidderRequest?.bidderCode
       ? bidderSettings.get(bidderRequest.bidderCode, 'allowAlternateBidderCodes') : undefined;
     if (marketPlaceEnabled) updateRequestExt(request, bidderRequest);
+    if (bidderRequest?.ortb2?.ext?.prebid?.previousauctioninfo) {
+
+      deepSetValue(request, 'ext.previousAuctionInfo',bidderRequest.ortb2.ext.prebid.previousauctioninfo);
+    }
     return request;
   },
   bidResponse(buildBidResponse, bid, context) {
@@ -721,10 +725,7 @@ export const spec = {
       }
     })
     const data = converter.toORTB({ validBidRequests, bidderRequest });
-    if (bid?.ortb2?.ext?.prebid?.previousauctioninfo) {
-
-      deepSetValue(data, 'ext.previousAuctionInfo',bid?.ortb2?.ext?.prebid?.previousauctioninfo);
-    }
+   
     let serverRequest = {
       method: 'POST',
       url: ENDPOINT,
