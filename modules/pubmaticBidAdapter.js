@@ -105,7 +105,6 @@ const converter = ortbConverter({
       ? bidderSettings.get(bidderRequest.bidderCode, 'allowAlternateBidderCodes') : undefined;
     if (marketPlaceEnabled) updateRequestExt(request, bidderRequest);
     if (bidderRequest?.ortb2?.ext?.prebid?.previousauctioninfo) {
-
       deepSetValue(request, 'ext.previousAuctionInfo',bidderRequest.ortb2.ext.prebid.previousauctioninfo);
     }
     return request;
@@ -725,7 +724,6 @@ export const spec = {
       }
     })
     const data = converter.toORTB({ validBidRequests, bidderRequest });
-   
     let serverRequest = {
       method: 'POST',
       url: ENDPOINT,

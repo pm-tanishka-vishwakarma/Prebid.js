@@ -55,7 +55,7 @@ describe('PubMatic adapter', () => {
     },
     ortb2Imp: {
       ext: {
-        tid: '92489f71-1bf2-49a0-adf9-000cea934729',
+      tid: '92489f71-1bf2-49a0-adf9-000cea934729',
         gpid: '/1111/homepage-leftnav',
         data: {
           pbadslot: '/1111/homepage-leftnav',
