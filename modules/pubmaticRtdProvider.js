@@ -15,11 +15,18 @@ import { getLowEntropySUA } from '../src/fpd/sua.js';
 import { continueAuction } from './priceFloors.js'; // eslint-disable-line prebid/validate-imports
 
 const CONSTANTS = Object.freeze({
+  COMMON: {
+    PREBID_NAMESPACE: 'pbjs'
+  },
   SUBMODULE_NAME: 'pubmatic',
   REAL_TIME_MODULE: 'realTimeData',
   LOG_PRE_FIX: 'PubMatic-Rtd-Provider: ',
   UTM: 'utm_',
   UTM_VALUES: {
+    TRUE: '1',
+    FALSE: '0'
+  },
+  HASID_VALUES:{
     TRUE: '1',
     FALSE: '0'
   },
@@ -33,7 +40,8 @@ const CONSTANTS = Object.freeze({
     BASEURL: 'https://ads.pubmatic.com/AdServer/js/pwt',
     FLOORS: 'floors.json',
     CONFIGS: 'config.json'
-  }
+  },
+  TARGET_IDS: ['id5id', 'pubcid', 'criteoId', 'tdid', 'lotamePanoramaId', '33acrossId', 'idl_env', 'pairId', 'uid2', 'publinkId']
 });
 
 const BROWSER_REGEX_MAP = [
@@ -109,6 +117,15 @@ export const getOs = () => getOS().toString();
 export const getDeviceType = () => fetchDeviceType().toString();
 export const getCountry = () => _country;
 export const getBidder = (request) => request?.bidder;
+export const getHasId = () => {
+  const publisherProvidedEids = window[CONSTANTS.COMMON.PREBID_NAMESPACE].getUserIdsAsEids() || [];
+  const publisherIdArray = publisherProvidedEids.map(eid => eid.source);
+  if (!publisherIdArray.length || !CONSTANTS.TARGET_IDS.length) {
+    return CONSTANTS.HASID_VALUES.FALSE;
+  }
+  const hasAllTargetIds = CONSTANTS.TARGET_IDS.every(targetId => publisherIdArray.includes(targetId));
+  return hasAllTargetIds ? CONSTANTS.HASID_VALUES.TRUE : CONSTANTS.HASID_VALUES.FALSE;
+}
 export const getUtm = () => {
   const url = new URL(window.location?.href);
   const urlParams = new URLSearchParams(url?.search);
@@ -158,7 +175,8 @@ export const getFloorsConfig = (floorsData, profileConfigs) => {
                 os: getOs,
                 utm: getUtm,
                 country: getCountry,
-                bidder: getBidder,
+               bidder: getBidder,
+                hasId: getHasId
             },
         },
     };
