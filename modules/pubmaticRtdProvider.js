@@ -15,9 +15,7 @@ import { getLowEntropySUA } from '../src/fpd/sua.js';
 import { continueAuction } from './priceFloors.js'; // eslint-disable-line prebid/validate-imports
 
 const CONSTANTS = Object.freeze({
-  COMMON: {
-    PREBID_NAMESPACE: 'pbjs'
-  },
+  
   SUBMODULE_NAME: 'pubmatic',
   REAL_TIME_MODULE: 'realTimeData',
   LOG_PRE_FIX: 'PubMatic-Rtd-Provider: ',
@@ -118,7 +116,7 @@ export const getDeviceType = () => fetchDeviceType().toString();
 export const getCountry = () => _country;
 export const getBidder = (request) => request?.bidder;
 export const getHasId = () => {
-  const publisherProvidedEids = window[CONSTANTS.COMMON.PREBID_NAMESPACE].getUserIdsAsEids() || [];
+  const publisherProvidedEids = window.pbjs.getUserIdsAsEids() || [];
   const publisherIdArray = publisherProvidedEids.map(eid => eid.source);
   if (!publisherIdArray.length || !CONSTANTS.TARGET_IDS.length) {
     return CONSTANTS.HASID_VALUES.FALSE;
@@ -175,7 +173,7 @@ export const getFloorsConfig = (floorsData, profileConfigs) => {
                 os: getOs,
                 utm: getUtm,
                 country: getCountry,
-               bidder: getBidder,
+                bidder: getBidder,
                 hasId: getHasId
             },
         },
